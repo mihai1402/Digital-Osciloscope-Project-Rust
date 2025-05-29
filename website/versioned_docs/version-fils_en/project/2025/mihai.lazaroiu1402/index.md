@@ -56,6 +56,9 @@ Power setup:
 ---
 
 ## Log
+### Week 13
+- Finished and polished the code + uploaded README and source code
+
 ### Week 12
 - Moved my hardware from the breadboard to a protoboard
 
@@ -176,24 +179,23 @@ The connections of the components described previously can be seen on the follow
 | [Breadboard + Prototype Power Source](https://microcontrollerslab.com/mb102-breadboard-power-supply-module-pinout-and-how-to-use-it/) | Prototyping circuit | [25.57 RON](https://sigmanortec.ro/Kit-Breadboard-MB102-Sursa-Fire-dupont-p136264993) |
 
 ---
-
 ## Software
 
-| **Library** | **Description** | **Usage** |
-|-------------|-----------------|----------|
+| Crate | Description | Purpose |
+|-------|-------------|---------|
 | [embassy-rp](https://docs.embassy.dev/embassy-rp/) | Raspberry Pi Pico 2 hardware abstraction | Used for interacting with peripherals like ADC, SPI, I2C, timers, and GPIOs to acquire and display waveform data |
 | [embassy-executor](https://docs.embassy.dev/embassy-executor/) | Async task executor for embedded projects | Manages concurrent tasks for waveform sampling, processing, and display update in real-time |
 | [embassy-time](https://docs.rs/embassy-time/) | Timekeeping and async timers | Used to generate accurate sampling intervals for the oscilloscope and trigger time-based actions |
-| [embassy-sync](https://docs.embassy.dev/embassy-sync/) | Async-safe signals, mutexes, and channels | Coordinates data flow between ADC sampling, processing, and the display task to ensure smooth real-time updates |
-| [heapless](https://docs.rs/heapless/) | Fixed-size data structures for `no_std` | Implements double buffering for waveform data to ensure no data loss during updates to the display |
-| [embedded-graphics](https://docs.rs/embedded-graphics/) | 2D graphics and text rendering | Renders waveforms, signal properties like amplitude/frequency, and other graphical elements on the display |
-| [ssd1306](https://github.com/eldruin/ssd1306) | Display driver for I2C OLED screens | Controls the OLED display to show real-time waveforms and signal information in the oscilloscope |
-| [display-interface-i2c](https://docs.rs/display-interface-i2c/) | Adapter crate for I2C display interface | Connects the SSD1306 driver to the embedded-graphics library via I2C communication |
-| [microfft](https://docs.rs/microfft/) | Lightweight FFT crate for `no_std` | Performs Fast Fourier Transform (FFT) to calculate the frequency of the signal in real time |
-| [cortex-m](https://docs.rs/cortex-m/) | Low-level access to Cortex-M processor features | Supports interrupts and system functions for handling ADC, DMA, and display updates |
-| [cortex-m-rt](https://docs.rs/cortex-m-rt/) | Runtime crate for Cortex-M | Initializes the board and manages interrupt-driven tasks, including DMA and signal sampling |
-| [defmt](https://docs.rs/defmt/) | Logging crate for embedded projects | Provides debug logging for signal data, task progress, and error tracking in the oscilloscope |
-| [panic-halt](https://docs.rs/panic-halt/) | Panic handler for embedded projects | Safely halts the CPU on panic, ensuring stable operation in embedded systems like the oscilloscope |
+| [embassy-sync](https://docs.rs/embassy-sync/) | Async-aware synchronization primitives | Enables safe, shared access to SPI bus and display resources between async tasks |
+| [embassy-embedded-hal](https://docs.rs/embassy-embedded-hal/) | `embedded-hal` compatibility and utilities for Embassy | Provides `SpiDevice` abstraction and `shared_bus` helpers for SPI peripheral sharing |
+| [defmt](https://docs.rs/defmt/) | Efficient logging framework for embedded systems | Used for debug logging (e.g., signal state, trigger detection) with minimal overhead |
+| [defmt-rtt](https://docs.rs/defmt-rtt/) | RTT (Real-Time Transfer) backend for `defmt` | Sends `defmt` logs over RTT to the host machine via probe |
+| [panic-probe](https://docs.rs/panic-probe/) | Panic handler with `defmt` support | Captures panic information and reports it via `defmt` logging for debugging |
+| [display-interface-spi](https://docs.rs/display-interface-spi/) | SPI-based communication interface for display drivers | Connects the ST7789 display driver to the SPI interface |
+| [mipidsi](https://docs.rs/mipidsi/) | MIPI DSI compatible display driver (e.g. ST7789) | Handles screen initialization and command/data communication |
+| [embedded-graphics](https://docs.rs/embedded-graphics/) | 2D graphics library for embedded display rendering | Draws the oscilloscope grid, waveforms, labels, and UI elements |
+| [heapless](https://docs.rs/heapless/) | Data structures that avoid dynamic memory allocation | Used for efficient string formatting (e.g., voltage readout, labels) |
+| [micromath](https://docs.rs/micromath/) | Lightweight math utilities for microcontrollers | Used in RMS calculation and other math operations without using `std` |
 
 ---
 
